@@ -21,6 +21,8 @@ func resourceAwsasgips() *schema.Resource {
 }
 
 func resourceAwsasgipsCreate(d *schema.ResourceData, m interface{}) error {
+	address := d.Get("address").(string)
+	d.SetId(address)
 	return resourceAwsasgipsRead(d, m)
 }
 
@@ -33,5 +35,8 @@ func resourceAwsasgipsUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceAwsasgipsDelete(d *schema.ResourceData, m interface{}) error {
+	// d.SetId("") is automatically called assuming delete returns no errors, but
+	// it is added here for explicitness.
+	d.SetId("")
 	return nil
 }
