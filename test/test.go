@@ -40,10 +40,12 @@ func main() {
 
 	}
 
-	instanceIdss := []string{"i-0d828ca28b40a2b27", "i-0fc4733bf128e2244"}
+	//instanceIdss := []string{"i-0d828ca28b40a2b27", "i-0fc4733bf128e2244"}
+	instanceIdss := []string{"i-0d828ca28b40a2b27"}
 
 	ins, err1 := describeEc2(aws.StringSlice(instanceIdss), svcec2)
 	fmt.Println(ins)
+	fmt.Println(*ins.Reservations[0].Instances[0].PrivateIpAddress)
 	fmt.Println(err1)
 
 	//return []*autoscaling.Instance{}, nil, errors.New("asg not found")
