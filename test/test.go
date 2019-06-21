@@ -18,6 +18,8 @@ func main() {
 	//	fmt.Println("More than 6")
 	//}
 
+	var iplist []string
+
 	svc := newAwsAsgService("us-west-2", "default")
 	svcec2 := newEc2Service("us-west-2", "default")
 
@@ -34,19 +36,34 @@ func main() {
 		//fmt.Println(autoScalingGroup.Instances, autoScalingGroup.LaunchConfigurationName)
 		//fmt.Println(autoScalingGroup.Instances)
 		for _, Instance := range autoScalingGroup.Instances {
-			fmt.Println(*Instance.InstanceId)
+
+			// print the instance id
+			//fmt.Println("Instance Id is --> ",*Instance.InstanceId)
+			ins, err1 := describeEc2(aws.StringSlice([]string{*Instance.InstanceId}), svcec2)
+			if err1 != nil {
+				fmt.Println(err1)
+			}
+
+			//print the private ip
+			//fmt.Println("Private IP  is --> ", *ins.Reservations[0].Instances[0].PrivateIpAddress)
+			//var ip string = *ins.Reservations[0].Instances[0].PrivateIpAddress
+			ip := *ins.Reservations[0].Instances[0].PrivateIpAddress
+
+			//fmt.Println("ip address is",ip)
+			iplist = append(iplist, ip)
+			//fmt.Println(iplist)
 
 		}
 
 	}
 
 	//instanceIdss := []string{"i-0d828ca28b40a2b27", "i-0fc4733bf128e2244"}
-	instanceIdss := []string{"i-0d828ca28b40a2b27"}
+	//instanceIdss := []string{"i-0d828ca28b40a2b27"}
 
-	ins, err1 := describeEc2(aws.StringSlice(instanceIdss), svcec2)
-	fmt.Println(ins)
-	fmt.Println(*ins.Reservations[0].Instances[0].PrivateIpAddress)
-	fmt.Println(err1)
+	//ins, err1 := describeEc2(aws.StringSlice(instanceIdss), svcec2)
+	//fmt.Println(ins)
+	//fmt.Println(*ins.Reservations[0].Instances[0].PrivateIpAddress)
+	//fmt.Println(err1)
 
 	//return []*autoscaling.Instance{}, nil, errors.New("asg not found")
 
@@ -55,6 +72,8 @@ func main() {
 	//	for _, inst := range resp.Reservations[idx].Instances {
 	//		fmt.Println("    - Instance ID: ", *inst.InstanceId)
 	//	}
+
+	fmt.Println(iplist)
 
 }
 
@@ -83,7 +102,7 @@ func config(region, profile string) *aws.Config {
 		WithHTTPClient(http.DefaultClient).
 		WithMaxRetries(aws.UseServiceDefaultRetries).
 		WithLogger(aws.NewDefaultLogger()).
-		WithLogLevel(aws.LogDebug).
+		WithLogLevel(aws.LogOff).
 		WithSleepDelay(time.Sleep).
 		WithEndpointResolver(endpoints.DefaultResolver())
 }
@@ -99,13 +118,16 @@ func describeScalingGroup(asgName string,
 		},
 	}
 	resp, err := svc.DescribeAutoScalingGroups(params)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// If we failed to get exactly one ASG, raise an error.
-	if len(resp.AutoScalingGroups) != 1 {
-		err = fmt.Errorf("the attempt to retrieve the current worker pool "+
-			"autoscaling group configuration expected exaclty one result got %v",
-			len(resp.AutoScalingGroups))
-	}
+	//if len(resp.AutoScalingGroups) != 1 {
+	//	err = fmt.Errorf("the attempt to retrieve the current worker pool "+
+	//		"autoscaling group configuration expected exaclty one result got %v",
+	//		len(resp.AutoScalingGroups))
+	//}
 
 	return resp, err
 }
