@@ -18,7 +18,12 @@ func main() {
 	//	fmt.Println("More than 6")
 	//}
 
-	var iplist []string
+	//var ipList []string
+	//var instanceList []string
+
+	//var instanceInfo map[string][]string //this was resulting in "panic: assignment to entry in nil map"
+	//created map of list
+	instanceInfo := make(map[string][]string)
 
 	svc := newAwsAsgService("us-west-2", "default")
 	svcec2 := newEc2Service("us-west-2", "default")
@@ -39,6 +44,9 @@ func main() {
 
 			// print the instance id
 			//fmt.Println("Instance Id is --> ",*Instance.InstanceId)
+			//instanceList = append(instanceList,*Instance.InstanceId)
+			instanceInfo["id"] = append(instanceInfo["id"], *Instance.InstanceId)
+
 			ins, err1 := describeEc2(aws.StringSlice([]string{*Instance.InstanceId}), svcec2)
 			if err1 != nil {
 				fmt.Println(err1)
@@ -50,7 +58,7 @@ func main() {
 			ip := *ins.Reservations[0].Instances[0].PrivateIpAddress
 
 			//fmt.Println("ip address is",ip)
-			iplist = append(iplist, ip)
+			instanceInfo["ip"] = append(instanceInfo["ip"], ip)
 			//fmt.Println(iplist)
 
 		}
@@ -73,7 +81,7 @@ func main() {
 	//		fmt.Println("    - Instance ID: ", *inst.InstanceId)
 	//	}
 
-	fmt.Println(iplist)
+	fmt.Println(instanceInfo)
 
 }
 
