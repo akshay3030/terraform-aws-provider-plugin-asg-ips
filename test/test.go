@@ -18,6 +18,8 @@ func main() {
 	//	fmt.Println("More than 6")
 	//}
 
+	//var inf interface{} // interface declaration
+
 	//var ipList []string
 	//var instanceList []string
 
@@ -55,10 +57,16 @@ func main() {
 			//print the private ip
 			//fmt.Println("Private IP  is --> ", *ins.Reservations[0].Instances[0].PrivateIpAddress)
 			//var ip string = *ins.Reservations[0].Instances[0].PrivateIpAddress
-			ip := *ins.Reservations[0].Instances[0].PrivateIpAddress
+			//inf = ins.Reservations[0].Instances[0].PublicIpAddress
+			private_ip := *ins.Reservations[0].Instances[0].PrivateIpAddress
 
 			//fmt.Println("ip address is",ip)
-			instanceInfo["ip"] = append(instanceInfo["ip"], ip)
+			if ins.Reservations[0].Instances[0].PublicIpAddress != nil {
+				instanceInfo["public_ip"] = append(instanceInfo["public_ip"], *ins.Reservations[0].Instances[0].PublicIpAddress)
+
+			}
+
+			instanceInfo["private_ip"] = append(instanceInfo["private_ip"], private_ip)
 			//fmt.Println(iplist)
 
 		}
