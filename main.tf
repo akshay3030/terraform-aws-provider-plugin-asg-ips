@@ -4,10 +4,10 @@
 ////
 ////}
 
-provider "aws" {
-  version = "~> 2.0"
-  region = "us-west-2"
-}
+//provider "aws" {
+//  version = "~> 2.0"
+//  region = "us-west-2"
+//}
 
 provider "awsasgips" {
   region = "us-west-2"
@@ -16,7 +16,7 @@ provider "awsasgips" {
 
 data "awsasgips" "test" {
   asgname = "asg-green-dev-media20190314181204859800000009"
-  region = "us-west-2"
+  //region = "us-west-2"
 }
 
 //resource "null_resource" "testing-data-resource" {

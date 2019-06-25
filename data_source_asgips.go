@@ -5,7 +5,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/autoscaling"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -26,10 +25,10 @@ func dataSourceAwsasgips() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"region": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-			},
+			//"region": &schema.Schema{
+			//	Type:     schema.TypeString,
+			//	Required: true,
+			//},
 			//"output": &schema.Schema{
 			//	Type:     schema.TypeMap,
 			//	//Required: true,
@@ -160,11 +159,11 @@ func dataSourceAwsasgipsRead(d *schema.ResourceData, m interface{}) error {
 //}
 
 // newAwsAsgService returns a session object for the AWS autoscaling service.
-func newEc2Service(region string, profile string) (Session *ec2.EC2) {
-	sessec2 := session.Must(session.NewSession())
-	svcec2 := ec2.New(sessec2, config(region, profile))
-	return svcec2
-}
+//func newEc2Service(region string, profile string) (Session *ec2.EC2) {
+//	sessec2 := session.Must(session.NewSession())
+//	svcec2 := ec2.New(sessec2, config(region, profile))
+//	return svcec2
+//}
 
 // Config produces a generic set of AWS configs
 func config(region, profile string) *aws.Config {
