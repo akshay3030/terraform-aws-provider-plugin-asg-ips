@@ -34,7 +34,12 @@ func dataSourceAwsasgips() *schema.Resource {
 			//	Type:     schema.TypeMap,
 			//	//Required: true,
 			//	Computed: true,
-			//	Elem:     schema.TypeList,
+			//	Elem: &schema.Schema{
+			//		Type: schema.TypeList,
+			//		Elem: &schema.Schema{
+			//			Type: schema.TypeString,
+			//		},
+			//	},
 			//
 			//},
 			"private_ip": &schema.Schema{

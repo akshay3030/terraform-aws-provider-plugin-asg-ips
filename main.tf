@@ -49,3 +49,10 @@ output "private_ip" {
 //output "public_ip" {
 //  value = "${data.awsasgips.test.public_ip.0}"
 //}
+
+
+//Below is not working, map of list is not supported as output in data resources
+//output "get_ip_from_output" {
+//  value = "${data.awsasgips.test.output}"
+//
+//}
