@@ -29,6 +29,7 @@ func dataSourceAwsasgips() *schema.Resource {
 			//	Type:     schema.TypeString,
 			//	Required: true,
 			//},
+			//Due to the limitation of tf-11115 it is not possible to nest maps. So the workaround is to let only the innermost data structure be of the type TypeMap: in this case driver_options. The outer data structures are of TypeList which can only have one item.
 			//"output": &schema.Schema{
 			//	Type:     schema.TypeMap,
 			//	//Required: true,

@@ -46,6 +46,10 @@ output "private_ip" {
 
 }
 
+output "private_ip_0" {
+    value = "${data.awsasgips.test.private_ip.0}"
+
+}
 //output "public_ip" {
 //  value = "${data.awsasgips.test.public_ip.0}"
 //}
